@@ -1,4 +1,4 @@
-<h1>ONLINE BANK</h1>
+<h1>ONLINE BANKING - DEMO VERSION</h1>
 
 
 <h3>FUNCTION</h3>
@@ -9,6 +9,7 @@
 
 Admin can add new ATM, see all payments and transaction history between users.
 
+                                              |
 
 
-Thank you <em>Ikrom, Nekruz(<strong>Our Team Lead :sweat_smile:  :+1: </strong> ) and Sulaymon</em>. Hope guys soon I will see all of you at the <code>#HumoLab</code>.
+Thank you <em>Ikrom, Nekruz(<strong>Our Team Lead :sweat_smile:  :+1: </strong> ) and Sulaymon</em>. <code>#HumoLab</code> Forever!!!.
