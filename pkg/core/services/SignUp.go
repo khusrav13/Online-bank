@@ -45,12 +45,12 @@ func NewAuthorization(Db *sql.DB) (user models.User) {
 
 func Authorizationss(Db *sql.DB) {
 	fmt.Println(Authorization)
-	var k int
-	_, err := fmt.Scan(&k)
+	var value int
+	_, err := fmt.Scan(&value)
 	if err != nil {
 		log.Println("Try again", err)
 	}
-	switch k {
+	switch value {
 	case 1:
 		User := NewAuthorization(Db)
 		if User.Admin == true {
@@ -59,8 +59,8 @@ func Authorizationss(Db *sql.DB) {
 			Users(Db, User)
 		}
 	case 2:
-		os.Exit(2)
+		os.Exit(1)
 	default:
-		log.Println("DEFAULT")
+		log.Fatal("Incorrect format please try again")
 	}
 }
