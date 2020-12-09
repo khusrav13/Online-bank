@@ -1,0 +1,5 @@
+[
+  {"id": 1, "address": "Nemat Karaboev 22/41", "status": false},
+  {"id": 4, "address": "Abay 15/2", "status": true},
+  {"id": 5, "address": "Pushkin 2", "status": true}
+]

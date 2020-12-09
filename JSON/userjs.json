@@ -1,0 +1,6 @@
+[
+  {"id" : 5, "name" : "Ansor", "surname": "Ansori", "age" : 22, "gender": "male", "admin": "false", "login": "ansor1", "password": "123321", "remove": false},
+  {"id" : 5, "name" : "Raihona", "surname": "Mirzoeva", "age" : 20, "gender": "female", "admin": "true", "login": "rai12", "password": "noname", "remove": false},
+  {"id" : 5, "name" : "Khurshed", "surname": "Badalov", "age" : 18, "gender": "male", "admin": "false", "login": "khurshed22", "password": "789456123", "remove": false}
+
+]
