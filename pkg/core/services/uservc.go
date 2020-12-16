@@ -181,9 +181,33 @@ func ShowHistoryOfTransaction(Db *sql.DB, user models.User) {
 
 }
 
+func TransferToAccount(Db *sql.DB, AccountNumber, ReceiverNumber, Amount int64) (err error){
+	tx, err := Db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+			return
+		}
+		err = tx.Commit()
+	}()
+	_, err = tx.Exec(`UPDATE account set amount = amount - ($1) where number = ($2)`, Amount, AccountNumber)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.Exec(`UPDATE account set amount = amount + ($1) where number = ($2)`, Amount, ReceiverNumber)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func Payment(Db *sql.DB, user models.User) {
 	fmt.Println("Payment operation in any card in the world")
-	var AccountNumber, receiverAccountNumber, translationAmount int64
+	var AccountNumber, receiverAccountNumber, transactionAmount int64
 	fmt.Println("Your card numbers:")
 	_, err := fmt.Scan(&AccountNumber)
 	if err != nil {
@@ -195,7 +219,7 @@ func Payment(Db *sql.DB, user models.User) {
 		log.Print("Error", err)
 	}
 	fmt.Println("Sum:")
-	_, err = fmt.Scan(&translationAmount)
+	_, err = fmt.Scan(&transactionAmount)
 	if err != nil {
 		log.Print("Error", err)
 	}
@@ -220,21 +244,28 @@ func Payment(Db *sql.DB, user models.User) {
 	if err != nil {
 		panic(err)
 	}
-	if Account.Amount < translationAmount {
+	if Account.Amount < transactionAmount {
 		fmt.Println("You have not enough money!")
 
 		return
 	}
-	_, err = Db.Exec(db.UpdateAccountAmountOfGiver, translationAmount, AccountNumber)
+	_, err = Db.Exec(db.UpdateAccountAmountOfGiver, transactionAmount, AccountNumber)
 	if err != nil {
 		panic(err)
 	}
-	_, err = Db.Exec(db.UpdateAccountAmountOfGainer, translationAmount, receiverAccountNumber)
+
+	_, err = Db.Exec(db.UpdateAccountAmountOfGainer, transactionAmount, receiverAccountNumber)
 	if err != nil {
 		panic(err)
+	}
+
+	err = TransferToAccount(Db, AccountNumber, receiverAccountNumber, transactionAmount)
+	if err != nil {
+		log.Print(err)
+		return
 	}
 	fmt.Println("Your payment accomplished successfully!")
-	err = AddTransactionHistory(Db, Account, receiverAccount, translationAmount)
+	err = AddTransactionHistory(Db, Account, receiverAccount, transactionAmount)
 	if err != nil {
 		panic(err)
 	}
